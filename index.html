@@ -22,10 +22,11 @@
   <nav class="nav" id="navigation">
    <button class="nav-item active" data-page="visao"><span class="nav-num">01</span><span>Visão executiva</span><span class="nav-arrow">↗</span></button>
    <button class="nav-item" data-page="franquias"><span class="nav-num">02</span><span>Franquias</span><span class="nav-arrow">↗</span></button>
-   <button class="nav-item" data-page="canais"><span class="nav-num">03</span><span>Canais e delivery</span><span class="nav-arrow">↗</span></button>
-   <button class="nav-item" data-page="calendario"><span class="nav-num">04</span><span>Ritmo de vendas</span><span class="nav-arrow">↗</span></button>
-   <button class="nav-item" data-page="promocoes"><span class="nav-num">05</span><span>Promoções</span><span class="nav-arrow">↗</span></button>
-   <button class="nav-item" data-page="metodo"><span class="nav-num">06</span><span>Dados e método</span><span class="nav-arrow">↗</span></button>
+   <button class="nav-item" data-page="grupos"><span class="nav-num">03</span><span>Perfis descobertos</span><span class="nav-arrow">↗</span></button>
+   <button class="nav-item" data-page="canais"><span class="nav-num">04</span><span>Canais e delivery</span><span class="nav-arrow">↗</span></button>
+   <button class="nav-item" data-page="calendario"><span class="nav-num">05</span><span>Ritmo de vendas</span><span class="nav-arrow">↗</span></button>
+   <button class="nav-item" data-page="promocoes"><span class="nav-num">06</span><span>Promoções</span><span class="nav-arrow">↗</span></button>
+   <button class="nav-item" data-page="metodo"><span class="nav-num">07</span><span>Dados e método</span><span class="nav-arrow">↗</span></button>
   </nav>
   <div class="side-bottom"><div class="side-mark">CDD <span>·</span> A realidade dá sinais.</div>
    <div class="side-fine">Case acadêmico didático · FNAT<br/>Sem clusterização ou previsões nesta versão</div>
@@ -41,6 +42,7 @@
     <div class="filter"><label for="sel-format">FORMATO</label><select id="sel-format"><option value="todos">Todos os formatos</option></select></div>
     <div class="filter"><label for="sel-porte">PORTE DA CIDADE</label><select id="sel-porte"><option value="todos">Todos os portes</option></select></div>
     <div class="filter filter-unit"><label for="sel-franquia">FRANQUIA</label><select id="sel-franquia"><option value="todos">Todas as franquias</option></select></div>
+    <div class="filter"><label for="sel-grupo">GRUPO</label><select id="sel-grupo"><option value="todos">Todos os grupos</option></select></div>
     <div class="filter"><label for="sel-from">DE</label><select id="sel-from"></select></div>
     <div class="filter"><label for="sel-to">ATÉ</label><select id="sel-to"></select></div>
     <div class="filter"><label for="sel-promo">PROMOÇÃO</label><select id="sel-promo"><option value="todos">Todos os dias</option><option value="1">Com promoção</option><option value="0">Sem promoção</option></select></div>
@@ -77,6 +79,46 @@
      </div>
      <article class="panel table-panel"><div class="panel-head"><div><div class="panel-no">06 / TABELA ANALÍTICA</div><h3>Inventário por franquia</h3><p>Indicadores agregados apenas do recorte selecionado.</p></div><div class="table-actions"><input id="searchUnits" type="search" placeholder="Buscar F001, F002…" aria-label="Buscar franquia"/><button id="downloadCsv" class="secondary-btn">↓ Exportar CSV</button></div></div><div class="table-wrap"><table id="unitsTable"><thead><tr><th data-sort="id">FRANQUIA ↕</th><th data-sort="formato">FORMATO ↕</th><th data-sort="porte">PORTE ↕</th><th data-sort="receita">RECEITA ↕</th><th data-sort="pedidos">PEDIDOS ↕</th><th data-sort="ticket">TICKET ↕</th><th data-sort="deliveryPct">DELIVERY ↕</th><th data-sort="diasAbertos">DIAS ABERTOS ↕</th></tr></thead><tbody></tbody></table></div><div class="table-foot"><span id="tableCount"></span><span>Clique em uma linha para selecionar a franquia</span></div></article>
    </section>
+   <section id="page-grupos" class="page">
+    <div class="story-grid group-hero">
+      <div class="story-main">
+        <div class="story-number">03 <span>/ DESCOBERTA ESTATÍSTICA</span></div>
+        <h2>O formato da loja não explica tudo.<br/><em>Os cinco perfis contam outra história.</em></h2>
+        <p>K-Means sobre 440 franquias maduras, com três indicadores padronizados. As 40 novas foram posicionadas provisoriamente, sem participar do treinamento.</p>
+        <div class="story-badges"><span>Comportamento, não tamanho</span><span>Resultados reproduzíveis</span></div>
+      </div>
+      <div class="story-side"><span class="small-gold">A DESCOBERTA</span><p>Cinco grupos com comportamentos distintos — além do rótulo Rua ou Shopping.</p><div class="story-bottom">Treinamento: 440 maduras · novas: 40 <span>↗</span></div></div>
+    </div>
+    <div class="kpi-grid compact" id="group-kpis"></div>
+    <div class="method-warning soft">
+      <span>i</span><div><strong>Modelo fixado no período completo, outubro/2023 a setembro/2024.</strong><p>Os agrupamentos, seus centroides, o gráfico de projeção PCA e as métricas dos perfis são históricos e NÃO mudam com os filtros de mês/promoção. O filtro de grupo da barra superior permite investigar cada segmento nas outras páginas. Isso evita reclassificar artificialmente as franquias ao mudar um filtro.</p></div>
+    </div>
+    <div class="group-tiles" id="groupTiles"></div>
+    <div class="charts-two">
+      <article class="panel"><div class="panel-head"><div><div class="panel-no">16 / OS CINCO PERFIS</div><h3>Quantas franquias por grupo?</h3><p>Inclui as 40 novas, sinalizadas separadamente na tabela.</p></div></div><div class="chart tall" id="chart-group-count"></div></article>
+      <article class="panel"><div class="panel-head"><div><div class="panel-no">17 / COMO VENDEM</div><h3>Delivery e fins de semana</h3><p>Participações da receita, não do número de pedidos.</p></div></div><div class="chart tall" id="chart-group-channels"></div></article>
+      <article class="panel wide"><div class="panel-head"><div><div class="panel-no">18 / MAPA ESTATÍSTICO</div><h3>As 480 franquias em um espaço de comportamento</h3><p>Projeção PCA em duas dimensões dos três atributos padronizados; os pontos maiores em contorno são unidades novas. Clique em uma franquia para investigá-la.</p></div><span class="pill">PCA · NÃO É MAPA GEOGRÁFICO</span></div><div class="chart pca-chart" id="chart-groups-pca"></div></article>
+      <article class="panel"><div class="panel-head"><div><div class="panel-no">19 / SEPARAÇÃO</div><h3>Silhueta em 2 a 8 grupos</h3><p>O escolhido preserva separação e evita grupos muito pequenos.</p></div></div><div class="chart tall" id="chart-groups-k"></div></article>
+      <article class="panel"><div class="panel-head"><div><div class="panel-no">20 / ESTABILIDADE</div><h3>Silhueta por grupo</h3><p>Média da silhueta das franquias maduras participantes do treino.</p></div></div><div class="chart tall" id="chart-groups-sil"></div></article>
+    </div>
+    <article class="panel table-panel" id="groupProfilePanel">
+      <div class="panel-head"><div><div class="panel-no">21 / INTERPRETAÇÃO DOCUMENTADA</div><h3>Perfil econômico-operacional de cada grupo</h3><p>Médias e participações agregadas do período; diferenças de promoção são associativas.</p></div></div>
+      <div class="table-wrap"><table id="groupProfileTable">
+      <thead><tr><th>GRUPO</th><th>PERFIL</th><th>UNIDADES</th><th>NOVAS</th><th>R$/DIA ABERTO</th><th>TICKET</th><th>DELIVERY</th><th>FIM DE SEMANA</th><th>PROMO*</th></tr></thead><tbody></tbody></table></div>
+      <div class="table-foot"><span>* Variação de médias observadas com/sem promoção; não é efeito causal.</span><span>Selecione um grupo para compará-lo nos filtros gerais</span></div>
+    </article>
+    <article class="panel table-panel">
+      <div class="panel-head"><div><div class="panel-no">22 / INVENTÁRIO AUDITÁVEL</div><h3>Qual é o grupo de cada franquia?</h3><p>São as 480 unidades cadastradas, com identificação de enquadramento provisório para as 40 novas.</p></div><div class="table-actions"><input id="groupSearch" type="search" placeholder="Buscar franquia ou grupo…" aria-label="Buscar no atlas de grupos"/></div></div>
+      <div class="table-wrap"><table id="groupUnitsTable">
+      <thead><tr><th>UNIDADE</th><th>GRUPO</th><th>FORMATO</th><th>STATUS</th><th>TICKET</th><th>DELIVERY</th><th>FIM DE SEMANA</th><th>R$/DIA ABERTO</th></tr></thead><tbody></tbody></table></div>
+      <div class="table-foot"><span id="groupTableCount"></span><button id="moreGroupRows" class="secondary-btn">Carregar mais franquias</button></div>
+    </article>
+    <div class="insight-grid">
+      <div class="insight"><span class="insight-no">MÉTODO</span><h4>Três variáveis definem os grupos</h4><p>Percentual de delivery, participação do fim de semana e ticket médio. As três variáveis são padronizadas por StandardScaler.</p></div>
+      <div class="insight"><span class="insight-no">VALIDAÇÃO</span><h4>Formato não é comportamento</h4><p>O benchmark de silhueta das quatro classes físicas é calculado no mesmo espaço estatístico e deve ser interpretado apenas nessa comparação.</p></div>
+      <div class="insight"><span class="insight-no">PRÓXIMA ETAPA</span><h4>Jev e decisões financeiras</h4><p>O Jev ainda não analisou os perfis. As regras de verba, metas e oportunidade serão aplicadas posteriormente, após revisão dos agrupamentos.</p></div>
+    </div>
+  </section>
    <section id="page-canais" class="page">
     <div class="page-summary"><span class="small-gold">POR ONDE A RECEITA ENTRA</span><p>Delivery e venda presencial podem representar modelos operacionais distintos. Compare participações sem confundir faturamento absoluto e dependência de canal.</p></div>
     <div class="kpi-grid compact" id="channel-kpis"></div>
@@ -112,5 +154,7 @@
 <div id="toast" aria-live="polite"></div>
 <script src="assets/echarts.min.js"></script>
 <script src="assets/dados.js"></script>
+<script src="assets/clusters.js"></script>
+<script src="assets/clusters_view.js"></script>
 <script src="assets/app.js"></script>
 </body></html>

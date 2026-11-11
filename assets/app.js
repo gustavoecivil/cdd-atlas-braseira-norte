@@ -1,19 +1,23 @@
 "use strict";
 // CDD / Braseira Norte. Dados agregados reais da FNAT, sem inferir causalidade.
 const DATA=window.BRASEIRA_DATA;
+const CLUSTERS=window.BRASEIRA_CLUSTERS;
+if(!CLUSTERS)throw Error("Dados de cluster ausentes");
+const groupOf=Object.fromEntries(CLUSTERS.unidades.map(u=>[u.franquia,u.grupo]));
 if(!DATA||!window.echarts){document.body.innerHTML="<p style='padding:32px'>Falha ao carregar dados ou gráficos. Verifique os arquivos do projeto.</p>";throw Error("DADOS_OU_ECHARTS_AUSENTES")}
 const $=id=>document.getElementById(id);
 const COLORS={ink:"#20201e",gold:"#b58b55",red:"#aa5149",green:"#4a8974",blue:"#5e8290",muted:"#918a80",line:"#eee9e1",neutral:"#d3d0c9"};
 const FORMAT={"Rua":"#b58b55","Shopping":"#5e8290","Drive-thru":"#aa5149","Quiosque":"#6f8c75"};
 const DIAS=["Seg","Ter","Qua","Qui","Sex","Sáb","Dom"];
-const s={page:"visao",formato:"todos",porte:"todos",franquia:"todos",from:0,to:DATA.meses.length-1,promo:"todos",search:"",sort:"receita",desc:true};
+const s={page:"visao",grupo:"todos",formato:"todos",porte:"todos",franquia:"todos",from:0,to:DATA.meses.length-1,promo:"todos",search:"",sort:"receita",desc:true};
 const pages={
 visao:["01 / INTELIGÊNCIA DE NEGÓCIOS","Uma rede. <em>Muitos comportamentos.</em>","Antes de perguntar quais restaurantes pertencem ao mesmo grupo, precisamos compreender como a rede funciona."],
 franquias:["02 / INTELIGÊNCIA POR FRANQUIA","480 histórias. <em>Uma base.</em>","Compare unidades individualmente, observe a dispersão e investigue seus perfis operacionais."],
-canais:["03 / COMPOSIÇÃO DOS CANAIS","Onde acontece <em>a venda?</em>","A participação do delivery e do presencial muda entre as franquias."],
-calendario:["04 / RELÓGIO OPERACIONAL","Cada dia tem <em>um ritmo.</em>","Compare dias de funcionamento sem confundir unidade fechada com dado faltante."],
-promocoes:["05 / MENSURAÇÃO RESPONSÁVEL","Promoção não é <em>causalidade.</em>","Observe associações entre dias promocionais e receita, sem atribuir efeito causal."],
-metodo:["06 / TRANSPARÊNCIA E FONTE","Sem contexto, <em>o número engana.</em>","Dicionário de dados, critérios, limitações e rastreabilidade."],
+grupos:["03 / DESCOBERTA DOS PERFIS","Cinco grupos. <em>Mais que formatos.</em>","A ciência de dados revela grupos de operação semelhantes e mostra quais franquias pertencem a eles."],
+canais:["04 / COMPOSIÇÃO DOS CANAIS","Onde acontece <em>a venda?</em>","A participação do delivery e do presencial muda entre as franquias."],
+calendario:["05 / RELÓGIO OPERACIONAL","Cada dia tem <em>um ritmo.</em>","Compare dias de funcionamento sem confundir unidade fechada com dado faltante."],
+promocoes:["06 / MENSURAÇÃO RESPONSÁVEL","Promoção não é <em>causalidade.</em>","Observe associações entre dias promocionais e receita, sem atribuir efeito causal."],
+metodo:["07 / TRANSPARÊNCIA E FONTE","Sem contexto, <em>o número engana.</em>","Dicionário de dados, critérios, limitações e rastreabilidade."],
 };
 const nf=(x,d=0)=>Number.isFinite(x)?x.toLocaleString("pt-BR",{minimumFractionDigits:d,maximumFractionDigits:d}):"—";
 const real=(x,d=2)=>Number.isFinite(x)?"R$ "+nf(x,d):"—";
@@ -33,6 +37,7 @@ function analyze(ignorePromo=false){
   if(s.formato!=="todos"&&u.formato!==s.formato)continue;
   if(s.porte!=="todos"&&u.porte!==s.porte)continue;
   if(s.franquia!=="todos"&&u.id!==s.franquia)continue;
+  if(s.grupo!=="todos"&&groupOf[u.id]!==s.grupo)continue;
   if(!ignorePromo&&s.promo!=="todos"&&String(r[3])!==s.promo)continue;
   seen.add(r[0]);add(total,r);add(mk(byMonth,r[1]),r);add(mk(byFormat,u.formato),r);
   add(mk(byUnit,r[0]),r);add(mk(byWeek,r[2]),r);add(mk(byFormatWeek,u.formato+"|"+r[2]),r);
@@ -218,6 +223,7 @@ function renderMetodo(){
 function display(){
  if(s.page==="visao")renderOverview();
  if(s.page==="franquias")renderFranquias();
+ if(s.page==="grupos")renderGroups();
  if(s.page==="canais")renderCanais();
  if(s.page==="calendario")renderCalendar();
  if(s.page==="promocoes")renderPromo();
@@ -245,18 +251,19 @@ function setup(){
  populate("sel-format",[...new Set(DATA.franquias.map(x=>x.formato))].sort());
  populate("sel-porte",[...new Set(DATA.franquias.map(x=>x.porte))].sort());
  populate("sel-franquia",DATA.franquias.map(x=>x.id));
+ populate("sel-grupo",CLUSTERS.grupos.map(x=>x.grupo),g=>{const x=CLUSTERS.grupos.find(y=>y.grupo===g);return g+" · "+x.nome});
  populate("sel-from",DATA.meses,monthName);populate("sel-to",DATA.meses,monthName);
  $("sel-from").value=DATA.meses[0];$("sel-to").value=DATA.meses.at(-1);
- for(const [id,key] of [["sel-format","formato"],["sel-porte","porte"],["sel-franquia","franquia"],["sel-promo","promo"]]){
+ for(const [id,key] of [["sel-format","formato"],["sel-porte","porte"],["sel-franquia","franquia"],["sel-promo","promo"],["sel-grupo","grupo"]]){
  $(id).addEventListener("change",e=>{s[key]=e.target.value;refresh()})}
  $("sel-from").addEventListener("change",e=>{s.from=DATA.meses.indexOf(e.target.value);if(s.from>s.to){s.to=s.from;$("sel-to").value=DATA.meses[s.to]}refresh()});
  $("sel-to").addEventListener("change",e=>{s.to=DATA.meses.indexOf(e.target.value);if(s.to<s.from){s.from=s.to;$("sel-from").value=DATA.meses[s.from]}refresh()});
  $("resetFilters").addEventListener("click",()=>{
- s.formato=s.porte=s.franquia=s.promo="todos";s.from=0;s.to=DATA.meses.length-1;s.search="";
- [["sel-format","todos"],["sel-porte","todos"],["sel-franquia","todos"],["sel-promo","todos"],["sel-from",DATA.meses[0]],["sel-to",DATA.meses.at(-1)]].forEach(([k,v])=>$(k).value=v);
+ s.formato=s.porte=s.franquia=s.promo=s.grupo="todos";s.from=0;s.to=DATA.meses.length-1;s.search="";
+ [["sel-format","todos"],["sel-porte","todos"],["sel-franquia","todos"],["sel-promo","todos"],["sel-grupo","todos"],["sel-from",DATA.meses[0]],["sel-to",DATA.meses.at(-1)]].forEach(([k,v])=>$(k).value=v);
  $("searchUnits").value="";refresh();toast("Filtros redefinidos")});
  document.querySelectorAll(".nav-item").forEach(btn=>btn.addEventListener("click",()=>showPage(btn.dataset.page)));
- populate("mobilePage",Object.keys(pages),k=>({visao:"01 Visão executiva",franquias:"02 Franquias",canais:"03 Canais e delivery",calendario:"04 Ritmo de vendas",promocoes:"05 Promoções",metodo:"06 Dados e método"})[k]);
+ populate("mobilePage",Object.keys(pages),k=>({visao:"01 Visão executiva",franquias:"02 Franquias",grupos:"03 Perfis descobertos",canais:"04 Canais e delivery",calendario:"05 Ritmo de vendas",promocoes:"06 Promoções",metodo:"07 Dados e método"})[k]);
  $("mobilePage").addEventListener("change",e=>showPage(e.target.value));
  $("searchUnits").addEventListener("input",e=>{s.search=e.target.value;renderTable()});
  document.querySelectorAll("#unitsTable th[data-sort]").forEach(th=>th.addEventListener("click",()=>{let k=th.dataset.sort;s.desc=s.sort===k?!s.desc:k!=="id"&&k!=="formato"&&k!=="porte";s.sort=k;renderTable()}));
