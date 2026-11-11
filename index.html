@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="theme-color" content="#151515"/>
+<meta name="description" content="Laboratório Cultura Data-Driven: exploração das 480 franquias do case FNAT Braseira Norte, com filtros, KPIs e storytelling analítico."/>
+<title>Braseira Norte · Atlas de Dados | Cultura Data-Driven</title>
+<link rel="icon" href="assets/cdd-logo-light.svg" type="image/svg+xml"/>
+<link rel="stylesheet" href="assets/style.css"/>
+</head><body>
+<div id="app" class="app">
+ <aside class="sidebar" aria-label="Menu de navegação">
+  <div class="brand"><img src="assets/cdd-logo-dark.svg" alt="Cultura Data-Driven" class="brand-logo"/>
+    <span class="brand-kicker">LABORATÓRIOS / FNAT 03</span>
+  </div>
+  <div class="sidebar-rule"></div>
+  <div class="project-ident"><div class="project-serial">ESTUDO 001 / BRASEIRA NORTE</div>
+    <div class="project-title">O atlas das<br/><em>480 franquias.</em></div>
+    <div class="project-small">Uma visão descritiva antes de agrupar, prever ou decidir.</div>
+  </div>
+  <div class="menu-label">EXPLORAR A REDE</div>
+  <nav class="nav" id="navigation">
+   <button class="nav-item active" data-page="visao"><span class="nav-num">01</span><span>Visão executiva</span><span class="nav-arrow">↗</span></button>
+   <button class="nav-item" data-page="franquias"><span class="nav-num">02</span><span>Franquias</span><span class="nav-arrow">↗</span></button>
+   <button class="nav-item" data-page="canais"><span class="nav-num">03</span><span>Canais e delivery</span><span class="nav-arrow">↗</span></button>
+   <button class="nav-item" data-page="calendario"><span class="nav-num">04</span><span>Ritmo de vendas</span><span class="nav-arrow">↗</span></button>
+   <button class="nav-item" data-page="promocoes"><span class="nav-num">05</span><span>Promoções</span><span class="nav-arrow">↗</span></button>
+   <button class="nav-item" data-page="metodo"><span class="nav-num">06</span><span>Dados e método</span><span class="nav-arrow">↗</span></button>
+  </nav>
+  <div class="side-bottom"><div class="side-mark">CDD <span>·</span> A realidade dá sinais.</div>
+   <div class="side-fine">Case acadêmico didático · FNAT<br/>Sem clusterização ou previsões nesta versão</div>
+  </div>
+ </aside>
+ <main class="workspace">
+  <header class="topbar">
+    <div class="top-ident"><span class="gold-dot"></span><span>FUNDAÇÃO DE NEGÓCIOS, ANALYTICS E TECNOLOGIA</span><span class="slash">/</span><span>DATA LAB</span></div>
+    <div class="top-right"><span class="status-dot"></span><span>Base auditada</span><span class="top-separator">·</span><span>2023–2024</span></div>
+  </header>
+  <div class="mobile-nav" id="mobileNav"><label for="mobilePage">Página</label><select id="mobilePage"></select></div>
+  <section class="filters" aria-label="Filtros globais">
+    <div class="filter"><label for="sel-format">FORMATO</label><select id="sel-format"><option value="todos">Todos os formatos</option></select></div>
+    <div class="filter"><label for="sel-porte">PORTE DA CIDADE</label><select id="sel-porte"><option value="todos">Todos os portes</option></select></div>
+    <div class="filter filter-unit"><label for="sel-franquia">FRANQUIA</label><select id="sel-franquia"><option value="todos">Todas as franquias</option></select></div>
+    <div class="filter"><label for="sel-from">DE</label><select id="sel-from"></select></div>
+    <div class="filter"><label for="sel-to">ATÉ</label><select id="sel-to"></select></div>
+    <div class="filter"><label for="sel-promo">PROMOÇÃO</label><select id="sel-promo"><option value="todos">Todos os dias</option><option value="1">Com promoção</option><option value="0">Sem promoção</option></select></div>
+    <button class="reset" id="resetFilters" title="Limpar filtros">↺ <span>Limpar</span></button>
+  </section>
+  <div class="shell" id="shell">
+   <div class="page-intro"><div class="eyebrow" id="page-kicker">01 / INTELIGÊNCIA DE NEGÓCIOS</div><h1 id="page-title">Uma rede. <em>Muitos comportamentos.</em></h1>
+    <div class="page-lead" id="page-desc">Antes de perguntar quais restaurantes pertencem ao mesmo grupo, precisamos compreender como a rede funciona.</div>
+    <div class="scope"><span id="scope-text">Carregando observações...</span><span class="scope-divider">•</span><span>Valores em R$ · fonte FNAT</span></div>
+   </div>
+   <section id="page-visao" class="page active">
+     <div class="story-grid">
+       <div class="story-main">
+         <div class="story-number">01 <span>/ O retrato da rede</span></div>
+         <h2>Os restaurantes são da mesma marca.<br/><em>Os dados dizem se operam da mesma forma.</em></h2>
+         <p>Receita, canal, sazonalidade e volume mudam de loja para loja. Este panorama explica as diferenças antes de construir qualquer cluster.</p>
+         <div class="story-badges"><span>480 unidades no cadastro</span><span>Uma base, múltiplos perfis</span></div>
+       </div>
+       <div class="story-side"><span class="small-gold">A PERGUNTA CERTA</span><p>“Distribuir igualmente é o mesmo que investir com critério?”</p><div class="story-bottom">Fundo de marketing: R$ 1,44 milhão/mês <span>↗</span></div></div>
+     </div>
+     <div class="kpi-grid" id="kpis"></div>
+     <div class="charts-two overview-panels">
+       <article class="panel wide" aria-label="Evolução de faturamento"><div class="panel-head"><div><div class="panel-no">01 / EVOLUÇÃO</div><h3>Receita ao longo dos meses</h3><p>Como o faturamento se distribuiu no período selecionado?</p></div><span class="pill">SÉRIE TEMPORAL</span></div><div class="chart" id="chart-month"></div></article>
+       <article class="panel" aria-label="Receita por formato"><div class="panel-head"><div><div class="panel-no">02 / ESTRUTURA</div><h3>Quem mais fatura?</h3><p>Receita acumulada por formato de franquia.</p></div></div><div class="chart" id="chart-format"></div></article>
+       <article class="panel" aria-label="Receita por canal"><div class="panel-head"><div><div class="panel-no">03 / CANAIS</div><h3>Presencial ou delivery?</h3><p>Composição da receita no universo filtrado.</p></div></div><div class="chart" id="chart-channel"></div></article>
+     </div>
+     <div class="insight-grid" id="overview-insights"></div>
+   </section>
+   <section id="page-franquias" class="page">
+     <div class="page-summary"><span class="small-gold">UNIDADE POR UNIDADE</span><p>O tamanho da rede esconde a dispersão entre franquias. Explore o ranking, compare perfis operacionais e selecione qualquer código para investigar.</p></div>
+     <div class="charts-two">
+      <article class="panel"><div class="panel-head"><div><div class="panel-no">04 / PERFIS</div><h3>Ticket × dependência de delivery</h3><p>Cada ponto representa uma franquia; tamanho indica faturamento.</p></div><span class="pill">EXPLORE PONTOS</span></div><div class="chart tall" id="chart-scatter"></div></article>
+      <article class="panel"><div class="panel-head"><div><div class="panel-no">05 / RANKING</div><h3>As 12 maiores receitas</h3><p>Clique em uma barra para filtrar a franquia.</p></div></div><div class="chart tall" id="chart-ranking"></div></article>
+     </div>
+     <article class="panel table-panel"><div class="panel-head"><div><div class="panel-no">06 / TABELA ANALÍTICA</div><h3>Inventário por franquia</h3><p>Indicadores agregados apenas do recorte selecionado.</p></div><div class="table-actions"><input id="searchUnits" type="search" placeholder="Buscar F001, F002…" aria-label="Buscar franquia"/><button id="downloadCsv" class="secondary-btn">↓ Exportar CSV</button></div></div><div class="table-wrap"><table id="unitsTable"><thead><tr><th data-sort="id">FRANQUIA ↕</th><th data-sort="formato">FORMATO ↕</th><th data-sort="porte">PORTE ↕</th><th data-sort="receita">RECEITA ↕</th><th data-sort="pedidos">PEDIDOS ↕</th><th data-sort="ticket">TICKET ↕</th><th data-sort="deliveryPct">DELIVERY ↕</th><th data-sort="diasAbertos">DIAS ABERTOS ↕</th></tr></thead><tbody></tbody></table></div><div class="table-foot"><span id="tableCount"></span><span>Clique em uma linha para selecionar a franquia</span></div></article>
+   </section>
+   <section id="page-canais" class="page">
+    <div class="page-summary"><span class="small-gold">POR ONDE A RECEITA ENTRA</span><p>Delivery e venda presencial podem representar modelos operacionais distintos. Compare participações sem confundir faturamento absoluto e dependência de canal.</p></div>
+    <div class="kpi-grid compact" id="channel-kpis"></div>
+    <div class="charts-two"><article class="panel"><div class="panel-head"><div><div class="panel-no">07 / MIX DE CANAIS</div><h3>Participação de delivery por formato</h3><p>Barras de 100%: formato por canal de receita.</p></div></div><div class="chart tall" id="chart-formatmix"></div></article><article class="panel"><div class="panel-head"><div><div class="panel-no">08 / TRAJETÓRIA</div><h3>Quanto o delivery ganhou espaço?</h3><p>Participação mensal de delivery na receita selecionada.</p></div></div><div class="chart tall" id="chart-deliverytrend"></div></article></div>
+    <div class="insight-grid"><div class="insight"><span class="insight-no">PONTO DE ATENÇÃO</span><h4>Delivery não é iFood</h4><p>A coluna agrega aplicativos e canais próprios; não há identificação da plataforma de pedido.</p></div><div class="insight"><span class="insight-no">DENOMINADOR</span><h4>Participação por receita</h4><p>Calculamos receita delivery dividida pela receita total; não a participação no número de pedidos, pois a fonte só informa pedidos totais.</p></div><div class="insight"><span class="insight-no">PRÓXIMO PASSO CIENTÍFICO</span><h4>Perfis antes dos clusters</h4><p>Uma unidade com alto share de delivery pode exigir gestão diferente, mas o cluster só será definido após validação estatística.</p></div></div>
+   </section>
+   <section id="page-calendario" class="page">
+    <div class="page-summary"><span class="small-gold">O TEMPO TAMBÉM É UMA VARIÁVEL</span><p>O comportamento do restaurante muda de acordo com o calendário. Compare médias por dia efetivamente aberto — sem interpretar dias fechados como falha de dados.</p></div>
+    <div class="kpi-grid compact" id="calendar-kpis"></div>
+    <div class="charts-two"><article class="panel"><div class="panel-head"><div><div class="panel-no">09 / RITMO SEMANAL</div><h3>Receita média por franquia-dia aberto</h3><p>Comparação entre segunda e domingo, com o mesmo denominador.</p></div></div><div class="chart tall" id="chart-weekday"></div></article>
+    <article class="panel"><div class="panel-head"><div><div class="panel-no">10 / INTENSIDADE</div><h3>Mapa de calor por formato e dia</h3><p>Verde → amarelo → vermelho: receita média por dia aberto.</p></div></div><div class="chart tall" id="chart-heatmap"></div></article></div>
+    <div class="footnote">Atenção: cada média considera <strong>dias de franquia aberta</strong>. Não confundir movimento médio por unidade-dia com receita da rede inteira em um dia de calendário.</div>
+   </section>
+   <section id="page-promocoes" class="page">
+    <div class="page-summary"><span class="small-gold">ASSOCIAÇÃO ≠ CAUSALIDADE</span><p>Em quais condições os dias com promoção registraram maior ou menor receita? A comparação descritiva não revela o que teria acontecido sem a campanha.</p></div>
+    <div class="kpi-grid compact" id="promo-kpis"></div>
+    <div class="charts-two"><article class="panel"><div class="panel-head"><div><div class="panel-no">11 / COMPARAÇÃO</div><h3>Com vs. sem promoção</h3><p>Receita média por franquia-dia aberto, segmentada por formato.</p></div></div><div class="chart tall" id="chart-promo"></div></article>
+    <article class="panel"><div class="panel-head"><div><div class="panel-no">12 / DIFERENÇA OBSERVADA</div><h3>Variação da média em dias com promoção</h3><p>Diferença percentual descritiva, sem ajuste causal.</p></div></div><div class="chart tall" id="chart-promolift"></div></article></div>
+    <div class="method-warning"><span>!</span><div><strong>Não chamar isto de ROI ou efeito da campanha.</strong><p>Promoções podem ser escolhidas justamente para dias, lojas ou períodos atípicos. O case não informa custo das campanhas. O objetivo desta etapa é diagnóstico, não inferência causal.</p></div></div>
+   </section>
+   <section id="page-metodo" class="page">
+    <div class="page-summary"><span class="small-gold">COMO CONFIAR NO QUE VEMOS</span><p>Proveniência, modelagem, qualidade e limites de interpretação. O dado só ajuda a decidir quando suas condições são explícitas.</p></div>
+    <div class="kpi-grid compact" id="quality-kpis"></div>
+    <div class="charts-two"><article class="panel"><div class="panel-head"><div><div class="panel-no">13 / TESTES AUTOMATIZADOS</div><h3>Qualidade observada</h3><p>Inventário da auditoria original. Sem limpeza silenciosa.</p></div></div><div id="qaList" class="qa-list"></div></article>
+    <article class="panel"><div class="panel-head"><div><div class="panel-no">14 / POPULAÇÃO</div><h3>Maturidade das franquias</h3><p>Seis meses em 30/09/2024: atenção às regras do conselho.</p></div></div><div class="chart tall" id="chart-maturity"></div><div class="quality-note">A regra de elegibilidade financeira será aplicada apenas na etapa própria do case.</div></article></div>
+    <article class="panel dictionary"><div class="panel-head"><div><div class="panel-no">15 / GOVERNANÇA</div><h3>Dicionário de dados</h3><p>Definições e restrições das 16 colunas originais.</p></div><span class="pill">SEM CAMADAS INVENTADAS</span></div><div class="table-wrap"><table><thead><tr><th>FONTE</th><th>CAMPO</th><th>DESCRIÇÃO</th></tr></thead><tbody id="dictionaryBody"></tbody></table></div></article>
+    <div class="method-warning soft"><span>i</span><div><strong>Fonte acadêmica e limites da análise</strong><p>CSV didático disponibilizado pela FNAT, período 01/10/2023–30/09/2024. Este painel é uma camada descritiva. Não usa dados externos, não executa clusterização, não estima crescimento e não distribui a verba de marketing.</p><p class="hash">Proveniência: SHA-256 preservado no projeto local, com auditoria em Python.</p></div></div>
+   </section>
+  </div>
+  <footer class="site-footer"><span>© Cultura Data-Driven · Laboratório FNAT / Braseira Norte</span><span>Dados do case didático · Processo GSA · Versão exploratória</span></footer>
+ </main>
+</div>
+<div id="toast" aria-live="polite"></div>
+<script src="assets/echarts.min.js"></script>
+<script src="assets/dados.js"></script>
+<script src="assets/app.js"></script>
+</body></html>
