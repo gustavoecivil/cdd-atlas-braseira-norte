@@ -23,10 +23,12 @@
    <button class="nav-item active" data-page="visao"><span class="nav-num">01</span><span>Visão executiva</span><span class="nav-arrow">↗</span></button>
    <button class="nav-item" data-page="franquias"><span class="nav-num">02</span><span>Franquias</span><span class="nav-arrow">↗</span></button>
    <button class="nav-item" data-page="grupos"><span class="nav-num">03</span><span>Perfis descobertos</span><span class="nav-arrow">↗</span></button>
-   <button class="nav-item" data-page="canais"><span class="nav-num">04</span><span>Canais e delivery</span><span class="nav-arrow">↗</span></button>
-   <button class="nav-item" data-page="calendario"><span class="nav-num">05</span><span>Ritmo de vendas</span><span class="nav-arrow">↗</span></button>
-   <button class="nav-item" data-page="promocoes"><span class="nav-num">06</span><span>Promoções</span><span class="nav-arrow">↗</span></button>
-   <button class="nav-item" data-page="metodo"><span class="nav-num">07</span><span>Dados e método</span><span class="nav-arrow">↗</span></button>
+   <button class="nav-item" data-page="financeiro"><span class="nav-num">04</span><span>Decisões financeiras</span><span class="nav-arrow">↗</span></button>
+   <button class="nav-item" data-page="insights"><span class="nav-num">05</span><span>Achados adicionais</span><span class="nav-arrow">↗</span></button>
+   <button class="nav-item" data-page="canais"><span class="nav-num">06</span><span>Canais e delivery</span><span class="nav-arrow">↗</span></button>
+   <button class="nav-item" data-page="calendario"><span class="nav-num">07</span><span>Ritmo de vendas</span><span class="nav-arrow">↗</span></button>
+   <button class="nav-item" data-page="promocoes"><span class="nav-num">08</span><span>Promoções</span><span class="nav-arrow">↗</span></button>
+   <button class="nav-item" data-page="metodo"><span class="nav-num">09</span><span>Dados e método</span><span class="nav-arrow">↗</span></button>
   </nav>
   <div class="side-bottom"><div class="side-mark">CDD <span>·</span> A realidade dá sinais.</div>
    <div class="side-fine">Case acadêmico didático · FNAT<br/>Sem clusterização ou previsões nesta versão</div>
@@ -119,7 +121,65 @@
       <div class="insight"><span class="insight-no">PRÓXIMA ETAPA</span><h4>Jev e decisões financeiras</h4><p>O Jev ainda não analisou os perfis. As regras de verba, metas e oportunidade serão aplicadas posteriormente, após revisão dos agrupamentos.</p></div>
     </div>
   </section>
-   <section id="page-canais" class="page">
+   <section id="page-financeiro" class="page">
+ <div class="story-grid group-hero">
+  <div class="story-main"><div class="story-number">04 <span>/ SIMULAÇÃO OFICIAL</span></div>
+  <h2>O dinheiro não aumentou.<br/><em>Mudamos a forma de distribuí-lo.</em></h2>
+  <p>Aplicamos as regras do conselho aos grupos validados: lançamento, piso, resposta promocional e faturamento mensal equivalente. Cada centavo foi reconciliado.</p>
+  <div class="story-badges"><span>Fundo fixo de R$ 1,44 milhão</span><span>40 novas com verba de lançamento</span></div></div>
+  <div class="story-side"><span class="small-gold">PERGUNTA CENTRAL</span>
+  <p>Quem recebe mais, quem recebe menos — e por quê?</p>
+  <div class="story-bottom">Não é previsão nem recomendação de ROI <span>↗</span></div></div>
+ </div>
+ <div class="kpi-grid" id="financeKpis"></div>
+ <div class="method-warning soft"><span>i</span><div><strong>Simulação fixada em 30/09/2024 para as 480 franquias.</strong><p>Os gráficos financeiros e a meta de 6% usam o histórico-base completo e não mudam com os seletores de mês ou promoção, pois isso invalidaria a regra do conselho. O filtro de grupo destaca as parcelas sem alterar o orçamento total. A classificação das novas é provisória e elas não recebem meta por pares.</p></div></div>
+ <div class="charts-two">
+  <article class="panel"><div class="panel-head"><div><div class="panel-no">23 / RECONCILIAÇÃO DO FUNDO</div><h3>Para onde vão os R$ 1,44 milhão?</h3><p>Reserva de lançamento, piso das maduras e parcela distribuída segundo os grupos.</p></div></div><div class="chart tall" id="chart-fin-fund"></div></article>
+  <article class="panel"><div class="panel-head"><div><div class="panel-no">24 / ALTERAÇÃO NA REGRA</div><h3>Antes × depois: verba por madura</h3><p>Comparação por grupo; cada grupo paga diferença de centavos por arredondamento.</p></div></div><div class="chart tall" id="chart-fin-before"></div></article>
+  <article class="panel"><div class="panel-head"><div><div class="panel-no">25 / POTENCIAL CALCULADO</div><h3>Distância até a mediana do próprio grupo</h3><p>Oportunidade teórica mensal: 25% da distância × 30 dias.</p></div></div><div class="chart tall" id="chart-fin-opportunity"></div></article>
+  <article class="panel"><div class="panel-head"><div><div class="panel-no">26 / AS METAS</div><h3>Meta de crescimento ponderada por grupo</h3><p>Meta-base do Anexo 1 ajustada por um fator global único.</p></div></div><div class="chart tall" id="chart-fin-target"></div></article>
+ </div>
+ <div class="finance-recon" id="financeRecon"></div>
+ <article class="panel table-panel">
+  <div class="panel-head"><div><div class="panel-no">27 / RASTREABILIDADE</div><h3>Orçamento, oportunidade e meta por franquia</h3>
+  <p>Selecione o código da franquia na tabela ou no filtro superior para explorar seus números.</p></div>
+  <div class="table-actions"><input id="financeSearch" type="search" placeholder="Localizar F001…" aria-label="Buscar franquia na simulação"/>
+  <button class="secondary-btn" id="exportFinance">↓ Exportar simulação CSV</button></div></div>
+  <div class="table-wrap"><table id="financeTable"><thead><tr><th>UNIDADE</th><th>GRUPO</th><th>STATUS</th><th>R$/MÊS EQUIV.</th><th>VERBA NOVA</th><th>Δ R$</th><th>AÇÃO</th><th>OPORTUNIDADE/MÊS</th><th>META ANUAL</th></tr></thead><tbody></tbody></table></div>
+  <div class="table-foot"><span id="finCount"></span><button class="secondary-btn" id="moreFinanceRows">Carregar mais</button></div>
+ </article>
+ <div class="insight-grid">
+  <div class="insight"><span class="insight-no">CRITÉRIO FINANCEIRO</span><h4>Respostas à promoção são observadas</h4><p>A fórmula exigida pelo case utiliza a diferença de médias com e sem promoção. Ela não comprova causalidade e não revela o ROI de marketing.</p></div>
+  <div class="insight"><span class="insight-no">DENOMINADOR</span><h4>Um mês equivalente de 30 dias</h4><p>Para preservar comparabilidade, o faturamento mensal de cada franquia é sua receita histórica dividida pelos dias corridos observados, multiplicada por 30. Dias fechados entram com receita zero.</p></div>
+  <div class="insight"><span class="insight-no">HIPÓTESE DE META</span><h4>6% da rede, com novas sem meta</h4><p>O fator global atinge incremento equivalente a 6% da receita mensal da rede sob hipótese conservadora de que as novas não acrescentem crescimento no cálculo.</p></div>
+ </div>
+</section>
+<section id="page-insights" class="page">
+ <div class="story-grid group-hero">
+  <div class="story-main"><div class="story-number">05 <span>/ O QUE OS DADOS AINDA CONTAM</span></div>
+  <h2>Além das cinco perguntas.<br/><em>O que mais aprendemos?</em></h2>
+  <p>Achados adicionais com fontes, denominadores e limites explícitos: maturação das novas lojas, heterogeneidade de formatos, distribuição de receita e vieses na leitura das promoções.</p>
+  <div class="story-badges"><span>Sem dados externos</span><span>Sem números simulados adicionais</span></div></div>
+  <div class="story-side"><span class="small-gold">CRITÉRIO CDD</span><p>Dados interessantes não são necessariamente conclusões causais.</p><div class="story-bottom">Cada achado tem sua própria ressalva <span>↗</span></div></div>
+ </div>
+ <div class="kpi-grid compact" id="bonusKpis"></div>
+ <div class="charts-two">
+  <article class="panel"><div class="panel-head"><div><div class="panel-no">28 / MATURAÇÃO</div><h3>Primeiro mês × meses seguintes</h3><p>Novas franquias com dois ou mais blocos completos de 30 dias. Acima da diagonal = crescimento.</p></div></div><div class="chart tall" id="chart-bonus-new"></div></article>
+  <article class="panel"><div class="panel-head"><div><div class="panel-no">29 / CONTROLE DESCRITIVO</div><h3>Promoção: bruto × estratificado</h3><p>Diferença de médias: leitura bruta comparada a estratos por franquia e dia da semana.</p></div></div><div class="chart tall" id="chart-bonus-promo"></div></article>
+  <article class="panel"><div class="panel-head"><div><div class="panel-no">30 / CLASSIFICAÇÕES</div><h3>Um formato físico, vários comportamentos</h3><p>Quantidade de unidades de cada grupo dentro de cada formato.</p></div></div><div class="chart tall" id="chart-bonus-format"></div></article>
+  <article class="panel"><div class="panel-head"><div><div class="panel-no">31 / CONCENTRAÇÃO</div><h3>Concentração do faturamento mensal</h3><p>Receita equivalente reunida pelas 10, 24, 48 e 96 maiores franquias.</p></div></div><div class="chart tall" id="chart-bonus-top"></div></article>
+ </div>
+ <article class="panel table-panel">
+  <div class="panel-head"><div><div class="panel-no">32 / EVOLUÇÃO DOS RECÉM-INAUGURADOS</div><h3>Novas franquias: primeiro e próximos blocos de 30 dias</h3><p>Comparação apenas quando há ao menos dois blocos completos. Não extrapolamos os meses inexistentes.</p></div></div>
+  <div class="table-wrap"><table id="newUnitsTable"><thead><tr><th>FRANQUIA</th><th>GRUPO PROVISÓRIO</th><th>1º BLOCO / 30 DIAS</th><th>MÉDIA DOS DEMAIS BLOCOS</th><th>VARIAÇÃO OBSERVADA</th><th>BLOCOS POSTERIORES</th></tr></thead><tbody></tbody></table></div>
+ </article>
+ <div class="insight-grid">
+  <div class="insight"><span class="insight-no">MATURAÇÃO</span><h4>Comparação pareada, não promessa</h4><p>Franquias com poucos dias não são usadas para inventar um mês incompleto. Maior receita no segundo período não é garantia de continuidade.</p></div>
+  <div class="insight"><span class="insight-no">PROMOÇÕES</span><h4>Estratificação não resolve causalidade</h4><p>Controlar descritivamente por franquia e dia da semana reduz algumas diferenças de composição, mas não elimina tendências, seleção de campanhas ou fatores não medidos.</p></div>
+  <div class="insight"><span class="insight-no">CONCENTRAÇÃO</span><h4>Faturamento ≠ margem</h4><p>Participações dos maiores faturamentos são medidas na base e não demonstram desigualdade de lucro, custos ou retorno sobre marketing, ausentes no case.</p></div>
+ </div>
+</section>
+<section id="page-canais" class="page">
     <div class="page-summary"><span class="small-gold">POR ONDE A RECEITA ENTRA</span><p>Delivery e venda presencial podem representar modelos operacionais distintos. Compare participações sem confundir faturamento absoluto e dependência de canal.</p></div>
     <div class="kpi-grid compact" id="channel-kpis"></div>
     <div class="charts-two"><article class="panel"><div class="panel-head"><div><div class="panel-no">07 / MIX DE CANAIS</div><h3>Participação de delivery por formato</h3><p>Barras de 100%: formato por canal de receita.</p></div></div><div class="chart tall" id="chart-formatmix"></div></article><article class="panel"><div class="panel-head"><div><div class="panel-no">08 / TRAJETÓRIA</div><h3>Quanto o delivery ganhou espaço?</h3><p>Participação mensal de delivery na receita selecionada.</p></div></div><div class="chart tall" id="chart-deliverytrend"></div></article></div>
@@ -156,5 +216,7 @@
 <script src="assets/dados.js"></script>
 <script src="assets/clusters.js"></script>
 <script src="assets/clusters_view.js"></script>
+<script src="assets/financas.js"></script>
+<script src="assets/finance_view.js"></script>
 <script src="assets/app.js"></script>
 </body></html>

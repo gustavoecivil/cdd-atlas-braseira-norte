@@ -33,3 +33,12 @@ Os CSVs oficiais permanecem intactos na pasta do projeto. O painel é apenas uma
 - Número escolhido k=5; silhueta 0,83019; ARI bootstrap médio 0,99892; formato físico com silhueta −0,14120.
 - 40 novas não treinam o modelo: grupo provisório pela proximidade de centróides.
 - O agrupamento depende da população e das variáveis definidas; os dados são didáticos e não comprovam comportamento futuro.
+
+
+## Experimento 002 — Regras e achados adicionais (12/11/2026)
+
+Dashboard ampliado para nove páginas, com Decisões financeiras e Achados adicionais. Fundo de marketing totalmente reconciliado (R$ 1.440.000): R$ 120.000 de lançamento, R$ 440.000 de piso e R$ 880.000 distribuídos entre as unidades maduras conforme resposta observada à promoção × receita mensal equivalente do grupo. Resultado: 100 maduras aumentam a verba; 340 reduzem; 40 novas mantêm R$ 3.000.
+
+A receita mensal equivalente usa receita observada por franquia / dias corridos observados × 30, preservando dias fechados com zero. Isso equaliza históricos de duração diferente. A oportunidade é teórica: 219 franquias maduras abaixo da mediana do grupo, R$ 1.198.498,10 mensais pelas regras do case. As metas das 440 maduras recebem um fator único para somar incremento de 6% da receita equivalente da rede, assumindo que as 40 novas não acrescentam incremento no cálculo teórico e não recebem meta por pares.
+
+Investigação interna: 34 de 40 novas têm dois blocos completos de 30 dias; evolução mediana pareada de 43,311%, com seis sem janela comparável. Concentração de receita e Gini (0,236). Promoções comparadas de forma bruta e estratificada por franquia e dia da semana; isto não identifica causalidade. Classificações por formato comparadas aos cinco grupos. Nenhuma informação externa ou do iFood foi adicionada. A simulação é fixada no corte de 30/09/2024; filtros de período não recalculam o fundo. Reproduzível pelo Python local 04_Analises/05_decisoes_financeiras_e_insights.py.

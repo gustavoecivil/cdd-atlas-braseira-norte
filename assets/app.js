@@ -2,6 +2,8 @@
 // CDD / Braseira Norte. Dados agregados reais da FNAT, sem inferir causalidade.
 const DATA=window.BRASEIRA_DATA;
 const CLUSTERS=window.BRASEIRA_CLUSTERS;
+const FIN=window.BRASEIRA_FINANCAS;
+if(!FIN)throw Error("Dados financeiros ausentes");
 if(!CLUSTERS)throw Error("Dados de cluster ausentes");
 const groupOf=Object.fromEntries(CLUSTERS.unidades.map(u=>[u.franquia,u.grupo]));
 if(!DATA||!window.echarts){document.body.innerHTML="<p style='padding:32px'>Falha ao carregar dados ou gráficos. Verifique os arquivos do projeto.</p>";throw Error("DADOS_OU_ECHARTS_AUSENTES")}
@@ -14,10 +16,12 @@ const pages={
 visao:["01 / INTELIGÊNCIA DE NEGÓCIOS","Uma rede. <em>Muitos comportamentos.</em>","Antes de perguntar quais restaurantes pertencem ao mesmo grupo, precisamos compreender como a rede funciona."],
 franquias:["02 / INTELIGÊNCIA POR FRANQUIA","480 histórias. <em>Uma base.</em>","Compare unidades individualmente, observe a dispersão e investigue seus perfis operacionais."],
 grupos:["03 / DESCOBERTA DOS PERFIS","Cinco grupos. <em>Mais que formatos.</em>","A ciência de dados revela grupos de operação semelhantes e mostra quais franquias pertencem a eles."],
-canais:["04 / COMPOSIÇÃO DOS CANAIS","Onde acontece <em>a venda?</em>","A participação do delivery e do presencial muda entre as franquias."],
-calendario:["05 / RELÓGIO OPERACIONAL","Cada dia tem <em>um ritmo.</em>","Compare dias de funcionamento sem confundir unidade fechada com dado faltante."],
-promocoes:["06 / MENSURAÇÃO RESPONSÁVEL","Promoção não é <em>causalidade.</em>","Observe associações entre dias promocionais e receita, sem atribuir efeito causal."],
-metodo:["07 / TRANSPARÊNCIA E FONTE","Sem contexto, <em>o número engana.</em>","Dicionário de dados, critérios, limitações e rastreabilidade."],
+financeiro:["04 / DECISÕES ORÇAMENTÁRIAS","A verba tem <em>uma lógica.</em>","Aplicamos as regras oficiais do conselho aos cinco grupos, mantendo o fundo de marketing fixo."],
+insights:["05 / ACHADOS ADICIONAIS","Além do case. <em>Mais sinais.</em>","Investigações internas com métricas descritivas, suposições e limitações explícitas."],
+canais:["06 / COMPOSIÇÃO DOS CANAIS","Onde acontece <em>a venda?</em>","A participação do delivery e do presencial muda entre as franquias."],
+calendario:["07 / RELÓGIO OPERACIONAL","Cada dia tem <em>um ritmo.</em>","Compare dias de funcionamento sem confundir unidade fechada com dado faltante."],
+promocoes:["08 / MENSURAÇÃO RESPONSÁVEL","Promoção não é <em>causalidade.</em>","Observe associações entre dias promocionais e receita, sem atribuir efeito causal."],
+metodo:["09 / TRANSPARÊNCIA E FONTE","Sem contexto, <em>o número engana.</em>","Dicionário de dados, critérios, limitações e rastreabilidade."],
 };
 const nf=(x,d=0)=>Number.isFinite(x)?x.toLocaleString("pt-BR",{minimumFractionDigits:d,maximumFractionDigits:d}):"—";
 const real=(x,d=2)=>Number.isFinite(x)?"R$ "+nf(x,d):"—";
@@ -224,6 +228,8 @@ function display(){
  if(s.page==="visao")renderOverview();
  if(s.page==="franquias")renderFranquias();
  if(s.page==="grupos")renderGroups();
+ if(s.page==="financeiro")renderFinanceiro();
+ if(s.page==="insights")renderInsights();
  if(s.page==="canais")renderCanais();
  if(s.page==="calendario")renderCalendar();
  if(s.page==="promocoes")renderPromo();
@@ -232,6 +238,7 @@ function display(){
 function refresh(){
  a=analyze(false);b=analyze(true);
  $("scope-text").textContent=nf(a.franquias)+" franquias · "+monthName(DATA.meses[s.from])+" a "+monthName(DATA.meses[s.to])+" · "+(s.promo==="todos"?"todos os dias":s.promo==="1"?"com promoção":"sem promoção");
+ if(s.page==="financeiro"||s.page==="insights")$("scope-text").textContent="Cenário base fixo · 480 franquias · 30/09/2024 · dados FNAT";
  display();
 }
 function showPage(page){
@@ -263,7 +270,7 @@ function setup(){
  [["sel-format","todos"],["sel-porte","todos"],["sel-franquia","todos"],["sel-promo","todos"],["sel-grupo","todos"],["sel-from",DATA.meses[0]],["sel-to",DATA.meses.at(-1)]].forEach(([k,v])=>$(k).value=v);
  $("searchUnits").value="";refresh();toast("Filtros redefinidos")});
  document.querySelectorAll(".nav-item").forEach(btn=>btn.addEventListener("click",()=>showPage(btn.dataset.page)));
- populate("mobilePage",Object.keys(pages),k=>({visao:"01 Visão executiva",franquias:"02 Franquias",grupos:"03 Perfis descobertos",canais:"04 Canais e delivery",calendario:"05 Ritmo de vendas",promocoes:"06 Promoções",metodo:"07 Dados e método"})[k]);
+ populate("mobilePage",Object.keys(pages),k=>({visao:"01 Visão executiva",franquias:"02 Franquias",grupos:"03 Perfis descobertos",financeiro:"04 Decisões financeiras",insights:"05 Achados adicionais",canais:"06 Canais e delivery",calendario:"07 Ritmo de vendas",promocoes:"08 Promoções",metodo:"09 Dados e método"})[k]);
  $("mobilePage").addEventListener("change",e=>showPage(e.target.value));
  $("searchUnits").addEventListener("input",e=>{s.search=e.target.value;renderTable()});
  document.querySelectorAll("#unitsTable th[data-sort]").forEach(th=>th.addEventListener("click",()=>{let k=th.dataset.sort;s.desc=s.sort===k?!s.desc:k!=="id"&&k!=="formato"&&k!=="porte";s.sort=k;renderTable()}));

@@ -31,3 +31,17 @@
 @media(min-width:1250px){.filters{grid-template-columns:minmax(120px,1fr) minmax(130px,1fr) minmax(120px,1fr) minmax(125px,1.05fr) minmax(89px,.8fr) minmax(89px,.8fr) minmax(116px,1fr) auto;}}
 @media(max-width:1250px){.group-tiles{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:760px){.group-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.pca-chart{height:340px}}
+
+.finance-recon{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:16px 0}
+.recon-item{padding:19px 17px;background:#22201d;border:1px solid #463e32;border-radius:12px;color:#f7f3eb}
+.recon-item .label{display:block;font-size:10px;font-weight:850;letter-spacing:1.1px;color:#d1b17b;margin-bottom:10px}
+.recon-item .val{display:block;font-size:clamp(18px,2vw,27px);font-weight:850;letter-spacing:-.7px}
+.recon-item .sub{font-size:11px;color:#aca59b;margin-top:9px;line-height:1.5}
+.finance-selected{border-color:#c8a478;background:#fff9f1}
+#financeTable td:nth-child(6){font-weight:800}
+#financeTable .gain{color:#458b68}
+#financeTable .loss{color:#b75b4f}
+#financeTable tbody tr{cursor:pointer}
+#newUnitsTable tbody tr{cursor:default}
+@media(max-width:1200px){.finance-recon{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:760px){.finance-recon{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.recon-item{padding:12px}.recon-item .val{font-size:18px}}
